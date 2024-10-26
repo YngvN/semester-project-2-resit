@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../style/styles.css">
+    <script src="https://kit.fontawesome.com/bb746328b1.js" crossorigin="anonymous"></script>
+    <title>Auction House - Home</title>
+</head>
+
+<body>
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">MyLogo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item" id="myAuctionsLink">
+                        <a class="nav-link" href="/src/pages/auctions.html">My Auctions</a>
+                    </li>
+                    <li class="nav-item dropdown d-none" id="profileDropdownContainer">
+                        <a id="loginLink" class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <span id="navAvatarPlaceholder" class="d-none">
+                                <i class="fas fa-user-circle fa-2x"></i>
+                            </span>
+                            <img id="navAvatar" src="" alt="User Avatar" class="rounded-circle d-none" width="30">
+                        </a>
+                        <ul id="profileDropdown" class="dropdown-menu dropdown-menu-end text-center">
+                            <div class="px-3 pt-2">
+                                <strong id="usernameDisplay" class="d-block fs-5 mb-1"></strong>
+                                <p id="userCredits" class="text-muted mb-1">Credits: 0</p>
+                            </div>
+                            <hr class="dropdown-divider">
+                            <a class="dropdown-item" href="/src/pages/profile.html">Edit Profile</a>
+                            <a class="dropdown-item" href="#" id="logout">Log out</a>
+                        </ul>
+                    </li>
+                    <li class="nav-item" id="loginNavItem">
+                        <a class="nav-link" href="/index.html">Log In</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div id="tiles-container" class="container my-4">
+                    <div class="row" id="tiles-row"></div>
+                </div>
+            </div>
+            <div class="modal fade" id="listingModal" tabindex="-1" aria-labelledby="listingModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="listingModalLabel">Modal Title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="modalBody">
+                            <!-- Content will be inserted here dynamically -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>About Us</h5>
+                    <p>We are dedicated to providing quality products and excellent customer service. Your satisfaction
+                        is our priority.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light">Home</a></li>
+                        <li><a href="#" class="text-light">Shop</a></li>
+                        <li><a href="#" class="text-light">Contact</a></li>
+                        <li><a href="#" class="text-light">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Contact Us</h5>
+                    <p><i class="bi bi-envelope"></i> email@example.com</p>
+                    <p><i class="bi bi-phone"></i> +123 456 7890</p>
+                    <p><i class="bi bi-geo-alt"></i> 123 Street, City, Country</p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p class="mb-0">&copy; 2024 Your Company Name. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./home/home.mjs" type="module"></script>
+    <script>
+        // Check for loginData in either localStorage or sessionStorage
+        document.addEventListener("DOMContentLoaded", function () {
+            const loginData = JSON.parse(localStorage.getItem("loginData") || sessionStorage.getItem("loginData"));
+            const loginLink = document.getElementById("loginLink");
+            const navAvatar = document.getElementById("navAvatar");
+            const navAvatarPlaceholder = document.getElementById("navAvatarPlaceholder");
+            const usernameDisplay = document.getElementById("usernameDisplay");
+            const userCredits = document.getElementById("userCredits");
+            const myAuctionsLink = document.getElementById("myAuctionsLink");
+            const profileDropdownContainer = document.getElementById("profileDropdownContainer");
+            const loginNavItem = document.getElementById("loginNavItem");
+
+            if (loginData) {
+                // Hide login button and show profile dropdown
+                loginNavItem.classList.add("d-none");
+                profileDropdownContainer.classList.remove("d-none");
+
+                // Show avatar or placeholder in navbar
+                if (loginData.avatar) {
+                    navAvatar.src = loginData.avatar;
+                    navAvatar.classList.remove("d-none");
+                } else {
+                    navAvatarPlaceholder.classList.remove("d-none");
+                }
+
+                // Display username and credits in the dropdown
+                usernameDisplay.textContent = loginData.name;
+                userCredits.textContent = `Credits: ${loginData.credits}`;
+
+            } else {
+                // Hide "My Auctions" and profile dropdown, show login button
+                myAuctionsLink.style.display = 'none';
+                profileDropdownContainer.classList.add("d-none");
+                loginNavItem.classList.remove("d-none");
+            }
+
+            // Log out functionality
+            document.getElementById("logout").addEventListener("click", function () {
+                localStorage.removeItem("loginData");
+                sessionStorage.removeItem("loginData");
+                location.reload();
+            });
+        });
+    </script>
+</body>
+
+</html>
