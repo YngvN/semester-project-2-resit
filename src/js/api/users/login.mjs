@@ -1,4 +1,5 @@
 import { hideElement, revealElement } from '../../animation/fade.mjs';
+import { displayErrorModal } from '../url.mjs';
 import { registerUser, loginUser } from './user.mjs';
 
 
@@ -120,19 +121,19 @@ export function createRegistrationForm() {
         // Validate email format to ensure it ends with @stud.noroff.no
         const emailPattern = /^[a-zA-Z0-9._%+-]+@stud\.noroff\.no$/;
         if (!emailPattern.test(email)) {
-            alert("Email must end with @stud.noroff.no");
+            displayErrorModal("Email must end with @stud.noroff.no");
             return;
         }
 
         if (password !== confirmPassword) {
-            alert("Passwords do not match. Please try again.");
+            displayErrorModal("Passwords do not match. Please try again.");
             return;
         }
 
         // Call registerUser from user.mjs
         const result = await registerUser(name, email, password);
         if (result.success) {
-            alert(result.message || "Registration successful!");
+            displayErrorModal(result.message || "Registration successful!"); // Use modal for success message
 
             // Populate the login form with the new email and an empty password
             const loginForm = document.getElementById('login-form');
@@ -145,6 +146,7 @@ export function createRegistrationForm() {
             hideElement(createUserForm);
             revealElement(loginForm);
         } else {
+            displayErrorModal(result.message || "Registration failed. Please try again."); // Use modal for registration failure
         }
     });
 }
@@ -227,7 +229,7 @@ export function createLoginForm() {
 
     // Skip Login link
     const skipLoginLink = document.createElement('a');
-    skipLoginLink.classList.add('btn', 'btn-link', 'mt-3'); // Removed 'w-100' to avoid full-width styling
+    skipLoginLink.classList.add('btn', 'btn-link', 'mt-3');
     skipLoginLink.textContent = 'Skip Login';
     skipLoginLink.href = 'src/pages/index.html';
 
@@ -251,7 +253,7 @@ export function createLoginForm() {
     if (loginData && loginData.email) {
         // Prefill the email field and mask password
         emailInput.value = loginData.email;
-        passwordInput.value = "••••••••"; // Placeholder to indicate saved credentials
+        passwordInput.value = "••••••••";
         rememberMeCheckbox.checked = true;
 
         // Update the login button behavior to skip login
@@ -270,10 +272,10 @@ export function createLoginForm() {
             // Call loginUser from user.mjs with rememberMe option
             const result = await loginUser(email, password, rememberMe);
             if (result.success) {
-                alert(result.message || "Login successful!");
+                displayErrorModal(result.message || "Login successful!");
                 window.location.href = 'src/pages/index.html';
             } else {
-                alert(`Login failed: ${result.message}`);
+                displayErrorModal(`Login failed: ${result.message}`);
             }
         });
     }

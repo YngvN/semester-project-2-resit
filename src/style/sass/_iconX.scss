@@ -1,0 +1,14 @@
+.clear-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5em;
+    color: #999;
+    cursor: pointer;
+    user-select: none;
+}
+
+.clear-icon:hover {
+    color: #333;
+}

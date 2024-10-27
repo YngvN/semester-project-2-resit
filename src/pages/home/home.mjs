@@ -7,12 +7,14 @@ document.addEventListener("DOMContentLoaded", () => {
     async function buildListingTiles() {
         try {
             // Fetch listings with seller and bids data
-            const listings = await makeRequest('listings', '', '', 'GET', null, '_seller=true&_bids=true');
+            const response = await makeRequest('listings', '', '', 'GET', null, { _seller: true, _bids: true });
 
-            if (!listings || listings.length === 0) {
+            if (!response || !response.data || response.data.length === 0) {
                 console.log('No listings found.');
                 return;
             }
+
+            const listings = response.data; // Extract the listings data
 
             // Build tiles for each listing
             const tilePromises = listings.map(listing => buildTile(listing));

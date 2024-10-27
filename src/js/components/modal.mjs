@@ -38,9 +38,10 @@ export function openListingModal(listingObject) {
         imagesHTML = `
             <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    ${listingObject.media.map((imageUrl, index) => `
+                    ${listingObject.media.map((image, index) => `
                         <div class="carousel-item ${index === 0 ? 'active' : ''}">
-                            <img src="${imageUrl}" class="d-block w-100 img-fluid" alt="Image of ${listingObject.title}">
+                            <img src="${image.url}" class="d-block w-100 img-fluid" alt="${image.alt || 'Image of ' + listingObject.title}"
+                                 style="height: 300px; object-fit: cover;">
                         </div>
                     `).join('')}
                 </div>
@@ -56,8 +57,9 @@ export function openListingModal(listingObject) {
         `;
     } else {
         imagesHTML = `
-            <img src="${listingObject.media && listingObject.media.length > 0 ? listingObject.media[0] : 'default-listing-image.jpg'}" 
-                 alt="Image of ${listingObject.title}" class="img-fluid mb-3" style="width: 100%; height: auto;">
+            <img src="${listingObject.media && listingObject.media.length > 0 ? listingObject.media[0].url : 'default-listing-image.jpg'}" 
+                 alt="${listingObject.media && listingObject.media.length > 0 ? listingObject.media[0].alt : 'Default image'}" 
+                 class="img-fluid mb-3" style="width: 100%; height: 300px; object-fit: cover;">
         `;
     }
 

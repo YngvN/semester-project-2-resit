@@ -1,10 +1,22 @@
 import { registerURL, loginURL } from "../url.mjs";
+import { displayErrorModal as displayModal } from "../url.mjs"; // Renaming for general usage
 
 /**
- * Sends information to create a new user
+ * Registers a new user with only the required fields and optional avatar
+ * @param {string} name - Required username
+ * @param {string} email - Required email
+ * @param {string} password - Required password
+ * @param {object} avatar - Optional avatar object with url and alt
+ * @returns {object} - Result of the registration
  */
-export async function registerUser(name, email, password) {
+export async function registerUser(name, email, password, avatar = null) {
     const userData = { name, email, password };
+    if (avatar) {
+        userData.avatar = avatar;
+    }
+
+    console.log("Register URL:", registerURL);
+    console.log("Request Payload:", JSON.stringify(userData));
 
     try {
         const response = await fetch(registerURL, {
@@ -16,30 +28,40 @@ export async function registerUser(name, email, password) {
         const data = await response.json();
 
         if (!response.ok) {
-            // Use the structured error format
-            const errorDetails = {
-                code: data.errors?.[0]?.code || "Unknown error code",
-                message: data.errors?.[0]?.message || "Unknown error",
-                path: data.errors?.[0]?.path || [],
+            const errors = data.errors?.map(error => ({
+                code: error.code || "Unknown error code",
+                message: error.message || "Unknown error",
+                path: error.path || []
+            })) || [{ message: "Unknown error" }];
+
+            errors.forEach((error, index) => {
+                console.error(`Error ${index + 1}:`, error);
+            });
+
+            const errorMessage = errors.map(e => e.message).join("; ");
+            displayModal(errorMessage); // Show error in modal
+            return {
+                success: false,
+                message: errorMessage,
                 status: data.status || "error",
                 statusCode: data.statusCode || response.status
             };
-            return { success: false, message: errorDetails.message };
         }
 
-        // Clear any existing login data
         localStorage.removeItem('loginData');
-        localStorage.removeItem('loggedIn');
         sessionStorage.removeItem('loginData');
-        sessionStorage.removeItem('loggedIn');
 
-        console.log("Create user success");
-        return { success: true, message: "Registration successful!" };
+        const successMessage = "Registration successful!";
+        displayModal(successMessage); // Show success in modal
+        console.log("User registered successfully");
+        return { success: true, message: successMessage };
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
+        displayModal("An error occurred. Please try again.");
         return { success: false, message: "An error occurred. Please try again." };
     }
 }
+
 
 export async function loginUser(email, password, rememberMe) {
     const loginDetails = { email, password };
@@ -54,7 +76,6 @@ export async function loginUser(email, password, rememberMe) {
         const data = await response.json();
 
         if (!response.ok) {
-            // Use the structured error format
             const errorDetails = {
                 code: data.errors?.[0]?.code || "Unknown error code",
                 message: data.errors?.[0]?.message || "Unknown error",
@@ -62,20 +83,23 @@ export async function loginUser(email, password, rememberMe) {
                 status: data.status || "error",
                 statusCode: data.statusCode || response.status
             };
-            alert(`Error: ${errorDetails.message}`);
+            displayModal(`Error: ${errorDetails.message}`);
             throw new Error(JSON.stringify(errorDetails));
         }
 
-        // Store login data based on the rememberMe setting
         const storage = rememberMe ? localStorage : sessionStorage;
         storage.setItem('loginData', JSON.stringify(data));
-        storage.setItem('loggedIn', 'true'); // Set the login status
+        if (data.data?.accessToken) {
+            storage.setItem('accessToken', data.data.accessToken);
+        }
 
+        const successMessage = "Login successful!";
+        displayModal(successMessage); // Show success in modal
         console.log('Login successful:', data);
-        return { success: true, message: 'Login successful', data };
+        return { success: true, message: successMessage, data };
     } catch (error) {
         console.error('Error during login:', error);
-        alert('An error occurred while logging in. Please try again.');
+        displayModal('An error occurred while logging in. Please try again.');
         return { success: false, message: error.message };
     }
 }

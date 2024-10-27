@@ -37,7 +37,6 @@
                         <ul id="profileDropdown" class="dropdown-menu dropdown-menu-end text-center">
                             <div class="px-3 pt-2">
                                 <strong id="usernameDisplay" class="d-block fs-5 mb-1"></strong>
-                                <p id="userCredits" class="text-muted mb-1">Credits: 0</p>
                             </div>
                             <hr class="dropdown-divider">
                             <a class="dropdown-item" href="/src/pages/profile.html">Edit Profile</a>
@@ -88,51 +87,7 @@
     </footer>
 
     <script src="./home/home.mjs" type="module"></script>
-    <script>
-        // Check for loginData in either localStorage or sessionStorage
-        document.addEventListener("DOMContentLoaded", function () {
-            const loginData = JSON.parse(localStorage.getItem("loginData") || sessionStorage.getItem("loginData"));
-            const loginLink = document.getElementById("loginLink");
-            const navAvatar = document.getElementById("navAvatar");
-            const navAvatarPlaceholder = document.getElementById("navAvatarPlaceholder");
-            const usernameDisplay = document.getElementById("usernameDisplay");
-            const userCredits = document.getElementById("userCredits");
-            const myAuctionsLink = document.getElementById("myAuctionsLink");
-            const profileDropdownContainer = document.getElementById("profileDropdownContainer");
-            const loginNavItem = document.getElementById("loginNavItem");
-
-            if (loginData) {
-                // Hide login button and show profile dropdown
-                loginNavItem.classList.add("d-none");
-                profileDropdownContainer.classList.remove("d-none");
-
-                // Show avatar or placeholder in navbar
-                if (loginData.avatar) {
-                    navAvatar.src = loginData.avatar;
-                    navAvatar.classList.remove("d-none");
-                } else {
-                    navAvatarPlaceholder.classList.remove("d-none");
-                }
-
-                // Display username and credits in the dropdown
-                usernameDisplay.textContent = loginData.name;
-                userCredits.textContent = `Credits: ${loginData.credits}`;
-
-            } else {
-                // Hide "My Auctions" and profile dropdown, show login button
-                myAuctionsLink.style.display = 'none';
-                profileDropdownContainer.classList.add("d-none");
-                loginNavItem.classList.remove("d-none");
-            }
-
-            // Log out functionality
-            document.getElementById("logout").addEventListener("click", function () {
-                localStorage.removeItem("loginData");
-                sessionStorage.removeItem("loginData");
-                location.reload();
-            });
-        });
-    </script>
+    <script src="../js/api/checkLogin.mjs" type="module"></script>
 </body>
 
 </html>

@@ -39,7 +39,7 @@ export async function buildTile(listingObject) {
 
     // Set fallback images if media is missing
     const listingImage = listingObject.media && listingObject.media.length > 0
-        ? listingObject.media[0]
+        ? listingObject.media[0].url
         : 'default-listing-image.jpg';
 
     // Construct HTML for the tile with inline onclick event

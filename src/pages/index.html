@@ -37,7 +37,6 @@
                         <ul id="profileDropdown" class="dropdown-menu dropdown-menu-end text-center">
                             <div class="px-3 pt-2">
                                 <strong id="usernameDisplay" class="d-block fs-5 mb-1"></strong>
-                                <p id="userCredits" class="text-muted mb-1">Credits: 0</p>
                             </div>
                             <hr class="dropdown-divider">
                             <a class="dropdown-item" href="/src/pages/profile.html">Edit Profile</a>
@@ -54,22 +53,43 @@
 
     <main>
         <div class="container">
+            <!-- Search Bar -->
+            <!-- Search Bar -->
+            <div class="row justify-content-center my-4">
+                <div class="col-md-8 position-relative">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search listings..."
+                        autocomplete="off">
+                    <span id="clearSearch" class="clear-icon" style="display: none;">&times;</span>
+                </div>
+            </div>
+
+            <!-- Search Results Container -->
+            <div class="row justify-content-center">
+                <div id="searchResultsContainer" class="container my-4" style="display: none;">
+                    <h5 id="searchResultsSummary"></h5>
+                    <div class="row" id="searchResultsRow"></div>
+                </div>
+            </div>
+
+
+
+            <!-- Tiles Container -->
             <div class="row justify-content-center">
                 <div id="tiles-container" class="container my-4">
                     <div class="row" id="tiles-row"></div>
                 </div>
             </div>
+
+            <!-- Modal for looking at listings -->
             <div class="modal fade" id="listingModal" tabindex="-1" aria-labelledby="listingModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
+                    <div class="modal-content large-modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="listingModalLabel">Modal Title</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body" id="modalBody">
-                            <!-- Content will be inserted here dynamically -->
-                        </div>
+                        <div class="modal-body" id="modalBody"></div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
@@ -78,6 +98,7 @@
             </div>
         </div>
     </main>
+
 
     <footer class="bg-dark text-light py-4">
         <div class="container">
@@ -110,51 +131,10 @@
     </footer>
 
     <script src="./home/home.mjs" type="module"></script>
-    <script>
-        // Check for loginData in either localStorage or sessionStorage
-        document.addEventListener("DOMContentLoaded", function () {
-            const loginData = JSON.parse(localStorage.getItem("loginData") || sessionStorage.getItem("loginData"));
-            const loginLink = document.getElementById("loginLink");
-            const navAvatar = document.getElementById("navAvatar");
-            const navAvatarPlaceholder = document.getElementById("navAvatarPlaceholder");
-            const usernameDisplay = document.getElementById("usernameDisplay");
-            const userCredits = document.getElementById("userCredits");
-            const myAuctionsLink = document.getElementById("myAuctionsLink");
-            const profileDropdownContainer = document.getElementById("profileDropdownContainer");
-            const loginNavItem = document.getElementById("loginNavItem");
+    <script src="../js/utility.mjs/search.mjs" type="module"></script>
+    <script src="../js/api/checkLogin.mjs" type="module"></script>
 
-            if (loginData) {
-                // Hide login button and show profile dropdown
-                loginNavItem.classList.add("d-none");
-                profileDropdownContainer.classList.remove("d-none");
 
-                // Show avatar or placeholder in navbar
-                if (loginData.avatar) {
-                    navAvatar.src = loginData.avatar;
-                    navAvatar.classList.remove("d-none");
-                } else {
-                    navAvatarPlaceholder.classList.remove("d-none");
-                }
-
-                // Display username and credits in the dropdown
-                usernameDisplay.textContent = loginData.name;
-                userCredits.textContent = `Credits: ${loginData.credits}`;
-
-            } else {
-                // Hide "My Auctions" and profile dropdown, show login button
-                myAuctionsLink.style.display = 'none';
-                profileDropdownContainer.classList.add("d-none");
-                loginNavItem.classList.remove("d-none");
-            }
-
-            // Log out functionality
-            document.getElementById("logout").addEventListener("click", function () {
-                localStorage.removeItem("loginData");
-                sessionStorage.removeItem("loginData");
-                location.reload();
-            });
-        });
-    </script>
 </body>
 
 </html>
