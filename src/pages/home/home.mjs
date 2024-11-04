@@ -1,47 +1,19 @@
-import { makeRequest } from '../../js/api/url.mjs';
-import { buildTile } from '../../js/components/auctionTile.mjs';
+import { buildListingTiles } from "../../js/components/buildTiles.mjs";
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log('Home.mjs loaded');
-
-    async function buildListingTiles() {
-        try {
-            // Fetch listings with seller and bids data
-            const response = await makeRequest('listings', '', '', 'GET', null, { _seller: true, _bids: true });
-
-            if (!response || !response.data || response.data.length === 0) {
-                console.log('No listings found.');
-                return;
-            }
-
-            const listings = response.data; // Extract the listings data
-
-            // Build tiles for each listing
-            const tilePromises = listings.map(listing => buildTile(listing));
-            const tiles = await Promise.all(tilePromises);
-
-            const tilesRow = document.getElementById('tiles-row');
-            if (!tilesRow) {
-                console.error('Tiles row container not found in the DOM');
-                return;
-            }
-
-            tilesRow.innerHTML = ''; // Clear existing content if any
-
-            // Append each tile's HTML to the row container
-            tiles.forEach(tileHTML => {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'col-md-4 mb-4';
-                wrapper.innerHTML = tileHTML.trim();
-                tilesRow.appendChild(wrapper);
-            });
-        } catch (error) {
-            console.error('Error fetching or building listing tiles:', error);
-        }
-    }
-
-    // Call the function after DOM is ready
     buildListingTiles().then(() => {
         console.log('buildListingTiles function completed');
+    });
+    // Event listener to remove all modal backdrops when a modal is hidden
+    document.addEventListener("hidden.bs.modal", () => {
+        document.querySelectorAll(".modal-backdrop").forEach((backdrop) => backdrop.remove());
+    });
+
+    // Also, remove backdrops when clicking outside the modal
+    document.addEventListener("click", (event) => {
+        if (event.target.classList.contains("modal")) {
+            document.querySelectorAll(".modal-backdrop").forEach((backdrop) => backdrop.remove());
+        }
     });
 });

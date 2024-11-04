@@ -1,4 +1,4 @@
-import { makeRequest } from "../../js/api/url.mjs";
+import { makeRequest, displayErrorModal } from "../../js/api/url.mjs";
 import { checkLoginStatus } from "../../js/api/checkLogin.mjs";
 
 // Helper function to get loginData from storage

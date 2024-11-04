@@ -13,4 +13,8 @@
   color: #333;
 }
 
+main {
+  min-height: 100vh;
+}
+
 /*# sourceMappingURL=styles.css.map */

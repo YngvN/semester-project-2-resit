@@ -8,7 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="../style/styles.css">
     <script src="https://kit.fontawesome.com/bb746328b1.js" crossorigin="anonymous"></script>
-    <title>Auction House - Auctions</title>
+    <title>Auction House - My Auctions</title>
 </head>
 
 <body>
@@ -52,7 +52,95 @@
     </header>
 
     <main>
-        <div class="container">
+        <div class="container mt-4">
+            <div class="text-center mb-4">
+                <button id="myListingsButton" class="btn btn-primary mx-2">My Listings</button>
+                <button id="myBidsButton" class="btn btn-primary mx-2">My Bids</button>
+                <button id="myWinsButton" class="btn btn-primary mx-2">Wins</button>
+                <button id="createListingButton" class="btn btn-success mx-2">Create New Listing</button>
+            </div>
+
+            <!-- My Listings Container -->
+            <div id="myListingsContainer" class="container my-4 flex-wrap" style="display: none;">
+                <h3 class="text-center">My Listings</h3>
+                <div class="row  justify-content-center" id="listings-tiles-row"></div>
+            </div>
+
+            <!-- My Bids Container -->
+            <div id="myBidsContainer" class="container my-4 flex-wrap" style="display: none;">
+                <h3 class="text-center">My Bids</h3>
+                <div class="row " id="bids-tiles-row"></div>
+            </div>
+
+            <!-- My Wins Container -->
+            <div id="myWinsContainer" class="container my-4 flex-wrap" style="display: none;">
+                <h3 class="text-center">My Wins</h3>
+                <div class="row justify-content-center" id="wins-tiles-row"></div>
+            </div>
+        </div>
+
+        <!-- Modal for looking at listings -->
+        <div class="modal fade" id="listingModal" tabindex="-1" aria-labelledby="listingModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content large-modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="listingModalLabel">Modal Title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modalBody"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal for creating a new listing -->
+        <div class="modal fade" id="createListingModal" tabindex="-1" aria-labelledby="createListingModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createListingModalLabel">Create New Listing</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="createListingForm">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="title" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tags" class="form-label">Tags (comma-separated)</label>
+                                <input type="text" class="form-control" id="tags">
+                            </div>
+
+                            <!-- Media fields container -->
+                            <div id="mediaFieldsContainer" class="mb-3">
+                                <label class="form-label">Media</label>
+                                <div class="media-input-group mb-2">
+                                    <input type="url" class="form-control mb-2" name="mediaUrl" placeholder="Media URL"
+                                        required>
+                                    <input type="text" class="form-control" name="mediaAlt" placeholder="Alt Text">
+                                </div>
+                            </div>
+                            <!-- Add image button -->
+                            <button type="button" id="addImageButton" class="btn btn-secondary mb-3">+ Add
+                                Image</button>
+
+                            <div class="mb-3">
+                                <label for="endsAt" class="form-label">Ends At</label>
+                                <input type="datetime-local" class="form-control" id="endsAt" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Submit Listing</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </main>
 
@@ -86,7 +174,7 @@
         </div>
     </footer>
 
-    <script src="./home/home.mjs" type="module"></script>
+    <script src="./auctions/auctions.mjs" type="module"></script>
     <script src="../js/api/checkLogin.mjs" type="module"></script>
 </body>
 

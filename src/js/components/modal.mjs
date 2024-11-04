@@ -1,8 +1,19 @@
+
 // import { makeRequest } from "../api/url.mjs";
 
-// let countdownInterval;  // Global variable to store the interval ID
+// let countdownInterval;
 
-// export function openListingModal(listingObject) {
+// export async function openListingModal(listingId) {
+//     // Fetch the listing data using makeRequest
+//     const listingData = await makeRequest(`listings/${listingId}`, '', '', 'GET', null, { _seller: true, _bids: true }, false);
+
+//     if (!listingData || !listingData.data) {
+//         console.error('Listing data could not be retrieved');
+//         return;
+//     }
+
+//     const listingObject = listingData.data;
+
 //     const modalTitle = document.getElementById('listingModalLabel');
 //     const modalBody = document.getElementById('modalBody');
 
@@ -13,7 +24,6 @@
 
 //     modalTitle.textContent = listingObject.title;
 
-//     // Helper function to calculate and format time left
 //     function getTimeLeft(endsAt) {
 //         const endTime = new Date(endsAt);
 //         const now = new Date();
@@ -32,7 +42,6 @@
 //         return `${days > 0 ? days + " days, " : ""}${hours} hours, ${minutes} minutes, ${seconds} seconds`;
 //     }
 
-//     // Generate the image carousel if there are multiple images
 //     let imagesHTML = '';
 //     if (listingObject.media && listingObject.media.length > 1) {
 //         imagesHTML = `
@@ -63,7 +72,6 @@
 //         `;
 //     }
 
-//     // Set the modal body content with the carousel or single image and other listing details
 //     modalBody.innerHTML = `
 //         ${imagesHTML}
 //         <p><strong>Seller:</strong> ${listingObject.seller?.name || 'Unknown'}</p>
@@ -74,9 +82,9 @@
 //             : 'No bids'}</p>
 //         <p><strong>Description:</strong> ${listingObject.description || 'No description available'}</p>
 //         <button id="bidButton" class="btn btn-primary mt-3">Place a Bid</button>
+//         <button id="viewBidsButton" class="btn btn-secondary mt-3 ms-2">View Bids</button>
 //     `;
 
-//     // Start a countdown interval
 //     clearInterval(countdownInterval);
 //     countdownInterval = setInterval(() => {
 //         const timeLeftElement = document.getElementById('timeLeft');
@@ -85,12 +93,10 @@
 //         }
 //     }, 1000);
 
-//     // Show the modal
 //     try {
 //         const listingModal = new bootstrap.Modal(document.getElementById('listingModal'));
 //         listingModal.show();
 
-//         // Clear interval when modal is hidden
 //         document.getElementById('listingModal').addEventListener('hidden.bs.modal', () => {
 //             clearInterval(countdownInterval);
 //         });
@@ -98,10 +104,48 @@
 //         console.error('Bootstrap modal error:', error);
 //     }
 
-//     // Remove any existing listeners on the bid button before adding a new one
 //     const bidButton = document.getElementById('bidButton');
 //     bidButton.removeEventListener('click', openBidPopup);
 //     bidButton.addEventListener('click', openBidPopup);
+
+//     const viewBidsButton = document.getElementById('viewBidsButton');
+//     viewBidsButton.removeEventListener('click', () => viewBidHistory(listingObject.bids));
+//     viewBidsButton.addEventListener('click', () => viewBidHistory(listingObject.bids));
+// }
+
+// // Function to open bid history modal
+// function viewBidHistory(bids) {
+//     const bidHistoryModal = document.createElement('div');
+//     bidHistoryModal.className = 'modal fade';
+//     bidHistoryModal.id = 'bidHistoryModal';
+//     bidHistoryModal.innerHTML = `
+//         <div class="modal-dialog modal-dialog-centered">
+//             <div class="modal-content">
+//                 <div class="modal-header">
+//                     <h5 class="modal-title">Bid History</h5>
+//                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+//                 </div>
+//                 <div class="modal-body">
+//                     ${bids.length > 0 ? bids.map(bid => `
+//                         <p><strong>Bidder:</strong> ${bid.bidder.name || 'Anonymous'} - <strong>Amount:</strong> $${bid.amount}</p>
+//                     `).join('') : '<p>No bids available.</p>'}
+//                 </div>
+//                 <div class="modal-footer">
+//                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+//                 </div>
+//             </div>
+//         </div>
+//     `;
+
+//     document.body.appendChild(bidHistoryModal);
+
+//     const bidHistoryModalInstance = new bootstrap.Modal(document.getElementById('bidHistoryModal'));
+//     bidHistoryModalInstance.show();
+
+//     bidHistoryModalInstance._element.addEventListener('hidden.bs.modal', () => {
+//         bidHistoryModalInstance.dispose();
+//         bidHistoryModal.remove();
+//     });
 // }
 
 // // Function to open the bid popup and display user's credits
@@ -169,10 +213,11 @@
 //     bootstrap.Modal.getInstance(document.getElementById('bidPopupModal')).hide();
 // }
 
+
 // export default { openListingModal };
 
-
-import { makeRequest } from "../api/url.mjs";
+import { makeRequest, displayErrorModal } from "../api/url.mjs";
+import { checkLoginStatus } from "../api/checkLogin.mjs";
 
 let countdownInterval;
 
@@ -181,7 +226,7 @@ export async function openListingModal(listingId) {
     const listingData = await makeRequest(`listings/${listingId}`, '', '', 'GET', null, { _seller: true, _bids: true }, false);
 
     if (!listingData || !listingData.data) {
-        console.error('Listing data could not be retrieved');
+        displayErrorModal('Listing data could not be retrieved.');
         return;
     }
 
@@ -191,7 +236,7 @@ export async function openListingModal(listingId) {
     const modalBody = document.getElementById('modalBody');
 
     if (!modalTitle || !modalBody) {
-        console.error('Modal elements not found in the DOM');
+        displayErrorModal('Modal elements not found in the DOM.');
         return;
     }
 
@@ -215,6 +260,12 @@ export async function openListingModal(listingId) {
         return `${days > 0 ? days + " days, " : ""}${hours} hours, ${minutes} minutes, ${seconds} seconds`;
     }
 
+    // Determine the highest bid
+    const highestBid = listingObject.bids && listingObject.bids.length > 0
+        ? Math.max(...listingObject.bids.map(bid => bid.amount))
+        : null;
+
+    // Set up carousel or single image
     let imagesHTML = '';
     if (listingObject.media && listingObject.media.length > 1) {
         imagesHTML = `
@@ -250,9 +301,7 @@ export async function openListingModal(listingId) {
         <p><strong>Seller:</strong> ${listingObject.seller?.name || 'Unknown'}</p>
         <p><strong>Bid Count:</strong> ${listingObject._count?.bids || 0} bids</p>
         <p><strong>Time Left:</strong> <span id="timeLeft">${getTimeLeft(listingObject.endsAt)}</span></p>
-        <p><strong>Current Price:</strong> ${listingObject.bids && listingObject.bids.length > 0
-            ? `$${listingObject.bids[listingObject.bids.length - 1].amount}`
-            : 'No bids'}</p>
+        <p><strong>Current Price:</strong> ${highestBid !== null ? `$${highestBid}` : 'No bids'}</p>
         <p><strong>Description:</strong> ${listingObject.description || 'No description available'}</p>
         <button id="bidButton" class="btn btn-primary mt-3">Place a Bid</button>
         <button id="viewBidsButton" class="btn btn-secondary mt-3 ms-2">View Bids</button>
@@ -279,12 +328,13 @@ export async function openListingModal(listingId) {
 
     const bidButton = document.getElementById('bidButton');
     bidButton.removeEventListener('click', openBidPopup);
-    bidButton.addEventListener('click', openBidPopup);
+    bidButton.addEventListener('click', () => openBidPopup(listingId)); // Pass listingId correctly
 
     const viewBidsButton = document.getElementById('viewBidsButton');
     viewBidsButton.removeEventListener('click', () => viewBidHistory(listingObject.bids));
     viewBidsButton.addEventListener('click', () => viewBidHistory(listingObject.bids));
 }
+
 
 // Function to open bid history modal
 function viewBidHistory(bids) {
@@ -322,7 +372,7 @@ function viewBidHistory(bids) {
 }
 
 // Function to open the bid popup and display user's credits
-function openBidPopup() {
+function openBidPopup(listingId) {  // Accept listingId as a parameter
     const loginData = JSON.parse(localStorage.getItem('loginData') || sessionStorage.getItem('loginData') || '{}');
     const availableCredits = loginData?.userData?.credits || 0;
 
@@ -358,7 +408,7 @@ function openBidPopup() {
 
     const submitBidButton = document.getElementById('submitBid');
     submitBidButton.removeEventListener('click', handleBidSubmission);
-    submitBidButton.addEventListener('click', handleBidSubmission);
+    submitBidButton.addEventListener('click', () => handleBidSubmission(listingId));  // Pass listingId here
 
     bidPopupModal._element.addEventListener('hidden.bs.modal', () => {
         bidPopupModal.dispose();
@@ -366,25 +416,62 @@ function openBidPopup() {
     });
 }
 
-// Handle bid submission logic
-function handleBidSubmission() {
+// Function to place bid and handle submission logic with error modal display
+async function handleBidSubmission(listingId) {
     const bidAmount = parseFloat(document.getElementById('bidAmount').value);
     const loginData = JSON.parse(localStorage.getItem('loginData') || sessionStorage.getItem('loginData') || '{}');
     const availableCredits = loginData?.userData?.credits || 0;
 
     if (isNaN(bidAmount) || bidAmount <= 0) {
-        alert('Please enter a valid bid amount.');
+        displayErrorModal('Please enter a valid bid amount.');
         return;
     }
 
     if (bidAmount > availableCredits) {
-        alert('Insufficient credits.');
+        displayErrorModal('Insufficient credits.');
         return;
     }
 
-    console.log(`Bid of $${bidAmount} placed successfully!`);
-    bootstrap.Modal.getInstance(document.getElementById('bidPopupModal')).hide();
+    try {
+        const bidResponse = await placeBid(listingId, bidAmount);
+        if (bidResponse) {
+            console.log(`Bid of $${bidAmount} placed successfully!`);
+            bootstrap.Modal.getInstance(document.getElementById('bidPopupModal')).hide();
+
+            // Refresh listing data to update the current price and bid count
+            await openListingModal(listingId);
+            await checkLoginStatus();
+        } else {
+            displayErrorModal("There was an issue placing your bid. Please try again.");
+        }
+    } catch (error) {
+        displayErrorModal(`An error occurred: ${error.message}`);
+    }
 }
 
+/**
+ * Places a bid on a specific listing.
+ * @param {string} listingId - The ID of the listing to bid on.
+ * @param {number} amount - The bid amount.
+ * @returns {Promise<object|null>} - Returns the bid response or null if there's an error.
+ */
+export async function placeBid(listingId, amount) {
+    if (typeof amount !== "number" || amount <= 0) {
+        console.error("Invalid bid amount. It must be a positive number.");
+        return null;
+    }
+
+    const body = { amount };
+    try {
+        const response = await makeRequest(`listings/${listingId}/bids`, '', '', 'POST', body, {}, true);
+        if (response) {
+            console.log(`Bid of $${amount} placed successfully for listing ID: ${listingId}`);
+            return response;
+        }
+    } catch (error) {
+        console.error(`Failed to place bid on listing ID: ${listingId}`, error);
+    }
+    return null;
+}
 
 export default { openListingModal };
