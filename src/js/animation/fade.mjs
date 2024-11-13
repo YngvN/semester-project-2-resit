@@ -7,6 +7,8 @@ export function hideElement(element) {
     const fadeDuration = 300;
 
     el.style.display = 'none';
+    // console.log(el.id + " hidden with fade-out");
+
 }
 
 /**

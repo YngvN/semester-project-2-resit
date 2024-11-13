@@ -68,7 +68,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         myBidsButton.classList.remove("active");
         myWinsButton.classList.remove("active");
 
-        // Add 'active' class to the currently active button
         activeButton.classList.add("active");
     }
 
@@ -77,7 +76,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.querySelectorAll(".modal-backdrop").forEach((backdrop) => backdrop.remove());
     });
 
-    // Also, remove backdrops when clicking outside the modal
     document.addEventListener("click", (event) => {
         if (event.target.classList.contains("modal")) {
             document.querySelectorAll(".modal-backdrop").forEach((backdrop) => backdrop.remove());

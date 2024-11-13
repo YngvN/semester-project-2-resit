@@ -1,48 +1,4 @@
-// (function checkLoginStatus() {
-//     const storedLoginData = localStorage.getItem("loginData") || sessionStorage.getItem("loginData");
-//     const loginData = storedLoginData ? JSON.parse(storedLoginData).data : null;
 
-//     const loginLink = document.getElementById("loginLink");
-//     const navAvatar = document.getElementById("navAvatar");
-//     const navAvatarPlaceholder = document.getElementById("navAvatarPlaceholder");
-//     const usernameDisplay = document.getElementById("usernameDisplay");
-//     const myAuctionsLink = document.getElementById("myAuctionsLink");
-//     const profileDropdownContainer = document.getElementById("profileDropdownContainer");
-//     const loginNavItem = document.getElementById("loginNavItem");
-
-//     if (loginData) {
-//         // Hide login button and show profile dropdown
-//         loginNavItem.classList.add("d-none");
-//         profileDropdownContainer.classList.remove("d-none");
-
-//         // Show avatar or placeholder in navbar
-//         if (loginData.avatar && loginData.avatar.url) {
-//             navAvatar.src = loginData.avatar.url;
-//             navAvatar.alt = loginData.avatar.alt || "User avatar";
-//             navAvatar.classList.remove("d-none");
-//             navAvatarPlaceholder.classList.add("d-none");
-//         } else {
-//             navAvatar.classList.add("d-none");
-//             navAvatarPlaceholder.classList.remove("d-none");
-//         }
-
-//         // Display username and credits in the dropdown
-//         usernameDisplay.textContent = loginData.name || "Unknown User";
-
-//     } else {
-//         // Hide "My Auctions" and profile dropdown, show login button
-//         myAuctionsLink.style.display = 'none';
-//         profileDropdownContainer.classList.add("d-none");
-//         loginNavItem.classList.remove("d-none");
-//     }
-
-//     // Log out functionality
-//     document.getElementById("logout").addEventListener("click", function () {
-//         localStorage.removeItem("loginData");
-//         sessionStorage.removeItem("loginData");
-//         location.reload();
-//     });
-// })();
 
 import { makeRequest } from "./url.mjs";
 
@@ -69,19 +25,8 @@ async function fetchUserProfile(profileName) {
                 winsCount: profileData._count?.wins || 0
             };
 
-            // Update loginData with structured userData
-            const loginData = JSON.parse(localStorage.getItem("loginData") || sessionStorage.getItem("loginData"));
-            loginData.userData = userData;
-
-            // Save back to storage
-            if (localStorage.getItem("loginData")) {
-                localStorage.setItem("loginData", JSON.stringify(loginData));
-            } else {
-                sessionStorage.setItem("loginData", JSON.stringify(loginData));
-            }
-
-            console.log("Updated Login Data with Detailed User Data:", loginData);
             return userData;
+            console.log("Fetching userdata")
         }
     } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -89,34 +34,62 @@ async function fetchUserProfile(profileName) {
     return null;
 }
 
-
 export default fetchUserProfile;
 
-export function checkLoginStatus() {
+/**
+ * Checks login status, updates the UI, and handles logout.
+ */
+export async function checkLoginStatus() {
     const storedLoginData = localStorage.getItem("loginData") || sessionStorage.getItem("loginData");
     const loginData = storedLoginData ? JSON.parse(storedLoginData) : null;
+    const profileName = loginData?.userData?.name || loginData?.data?.name;
 
-    const loginLink = document.getElementById("loginLink");
-    const navAvatar = document.getElementById("navAvatar");
-    const navAvatarPlaceholder = document.getElementById("navAvatarPlaceholder");
-    const usernameDisplay = document.getElementById("usernameDisplay");
-    const myAuctionsLink = document.getElementById("myAuctionsLink");
-    const profileDropdownContainer = document.getElementById("profileDropdownContainer");
-    const loginNavItem = document.getElementById("loginNavItem");
+    if (!profileName) {
+        displayLoggedOutState();
+        return;
+    }
 
-    if (loginData && loginData.data) {
-        // Use the detailed user data from `userData` if available
-        const userData = loginData.userData || loginData.data;
-        const { name, email, credits, avatar, listingsCount, winsCount } = userData;
+    const userData = await fetchUserProfile(profileName);
 
-        // Hide login button and show profile dropdown
-        loginNavItem.classList.add("d-none");
-        profileDropdownContainer.classList.remove("d-none");
+    if (userData) {
 
-        // Show avatar or placeholder in the navbar using userData
-        if (avatar && avatar.url) {
-            navAvatar.src = avatar.url;
-            navAvatar.alt = avatar.alt || "User avatar";
+        // Update loginData with userData
+        loginData.userData = userData;
+
+        // Save updated loginData to storage
+        localStorage.setItem("loginData", JSON.stringify(loginData));
+        // UI elements for Desktop
+        const loginNavItemDesktop = document.getElementById("loginNavItemDesktop");
+        const userInfoContainerDesktop = document.getElementById("userInfoContainerDesktop");
+        const navAvatar = document.getElementById("navAvatar");
+        const navAvatarPlaceholder = document.getElementById("navAvatarPlaceholder");
+        const usernameDisplay = document.getElementById("usernameDisplay");
+
+        // UI elements for Mobile
+        const userInfoContainerMobile = document.getElementById("userInfoContainerMobile");
+        const mobileNavAvatar = document.getElementById("mobileNavAvatar");
+        const mobileUsernameDisplay = document.getElementById("mobileUsernameDisplay");
+        const loginNavItemMobile = document.getElementById("loginNavItemMobile");
+
+        // Header element to apply the banner background
+        const headerElement = document.querySelector("header.navbar");
+
+        // Set banner background if available
+        if (userData.banner && userData.banner.url) {
+            headerElement.style.backgroundImage = `url(${userData.banner.url})`;
+            headerElement.style.backgroundSize = "cover";
+            headerElement.style.backgroundPosition = "center";
+            headerElement.style.backgroundRepeat = "no-repeat";
+        }
+
+        // Desktop nav: Hide login, show user info container
+        if (loginNavItemDesktop) loginNavItemDesktop.classList.add("d-none");
+        if (userInfoContainerDesktop) userInfoContainerDesktop.classList.remove("d-none");
+
+        // Display avatar or placeholder in desktop nav
+        if (userData.avatar && userData.avatar.url) {
+            navAvatar.src = userData.avatar.url;
+            navAvatar.alt = userData.avatar.alt || "User avatar";
             navAvatar.classList.remove("d-none");
             navAvatarPlaceholder.classList.add("d-none");
         } else {
@@ -124,44 +97,53 @@ export function checkLoginStatus() {
             navAvatarPlaceholder.classList.remove("d-none");
         }
 
-        // Display username in the dropdown
-        usernameDisplay.textContent = name || "Unknown User";
+        // Set username display in desktop nav
+        usernameDisplay.textContent = userData.name || "Unknown User";
 
-        // Fetch additional user profile details and update `userData`
-        fetchUserProfile(name).then(profile => {
-            if (profile) {
-                loginData.userData = profile;
+        // Mobile nav: Hide login, show user info container
+        if (loginNavItemMobile) loginNavItemMobile.classList.add("d-none");
+        if (userInfoContainerMobile) userInfoContainerMobile.classList.remove("d-none");
+        mobileUsernameDisplay.textContent = userData.name || "Unknown User";
+        mobileNavAvatar.src = userData.avatar?.url || "";
+        mobileNavAvatar.alt = userData.avatar?.alt || "User avatar";
+        mobileNavAvatar.classList.remove("d-none");
 
-                // Store updated loginData back to localStorage or sessionStorage
-                if (localStorage.getItem("loginData")) {
-                    localStorage.setItem("loginData", JSON.stringify(loginData));
-                } else {
-                    sessionStorage.setItem("loginData", JSON.stringify(loginData));
-                }
-
-                // Update the avatar again after fetch in case it changed
-                const updatedAvatar = profile.avatar;
-                if (updatedAvatar && updatedAvatar.url) {
-                    navAvatar.src = updatedAvatar.url;
-                    navAvatar.alt = updatedAvatar.alt || "User avatar";
-                    navAvatar.classList.remove("d-none");
-                    navAvatarPlaceholder.classList.add("d-none");
-                }
-            }
-        });
     } else {
-        // Hide "My Auctions" and profile dropdown, show login button
-        myAuctionsLink.style.display = 'none';
-        profileDropdownContainer.classList.add("d-none");
-        loginNavItem.classList.remove("d-none");
+        // Display logged-out state if user data is not available
+        displayLoggedOutState();
     }
 
-    // Log out functionality
-    document.getElementById("logout").addEventListener("click", function () {
-        localStorage.removeItem("loginData");
-        sessionStorage.removeItem("loginData");
-        location.reload();
+    // Attach logout functionality to both desktop and mobile logout buttons
+    document.querySelectorAll("#logout").forEach(button => {
+        button.addEventListener("click", function () {
+            localStorage.removeItem("loginData");
+            sessionStorage.removeItem("loginData");
+            location.reload();
+        });
     });
 }
 
+/**
+ * Displays the logged-out state of the navigation UI.
+ */
+function displayLoggedOutState() {
+    const loginNavItemDesktop = document.getElementById("loginNavItemDesktop");
+    const userInfoContainerDesktop = document.getElementById("userInfoContainerDesktop");
+    const loginNavItemMobile = document.getElementById("loginNavItemMobile");
+    const userInfoContainerMobile = document.getElementById("userInfoContainerMobile");
+    const headerElement = document.querySelector("header.navbar");
+
+    // Remove any banner background if the user is not logged in
+    headerElement.style.backgroundImage = "";
+
+    // Desktop nav: Show login, hide user info container
+    if (loginNavItemDesktop) loginNavItemDesktop.classList.remove("d-none");
+    if (userInfoContainerDesktop) userInfoContainerDesktop.classList.add("d-none");
+
+    // Mobile nav: Show login, hide user info container
+    if (loginNavItemMobile) loginNavItemMobile.classList.remove("d-none");
+    if (userInfoContainerMobile) userInfoContainerMobile.classList.add("d-none");
+}
+
+// Initial call to check login status
 checkLoginStatus();

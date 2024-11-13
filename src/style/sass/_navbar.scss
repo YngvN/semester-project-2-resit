@@ -1,0 +1,158 @@
+.header-container {
+    background-color: black !important;
+    border-radius: 20px;
+}
+
+@media (max-width: 992px) {
+
+    /* Full-screen mobile navigation overlay */
+    .navbar-collapse {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #343a40;
+        /* Matches the bg-dark color */
+        z-index: 1050;
+        display: none;
+        /* Hide by default, show when active */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+        /* Smooth transition for opening/closing */
+        transform: translateY(-100%);
+        /* Hide off-screen initially */
+    }
+
+    /* Show mobile nav when active */
+    .navbar-collapse.show {
+        display: flex;
+        transform: translateY(0);
+        /* Slide into view */
+    }
+
+    .navbar-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 20px;
+    }
+
+    .nav-item {
+        margin: 0;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1.5rem;
+        /* Larger font for better readability on mobile */
+        color: #ffffff;
+        text-align: center;
+        width: 100%;
+        padding: 10px;
+    }
+
+    /* Toggle button positioning */
+    .navbar-toggler {
+        // position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 1100;
+    }
+
+    /* Close button styling */
+    .close-btn {
+        position: absolute;
+        top: 50px !important;
+        right: 70px;
+        transform: translateX(-40%);
+        /* Centers horizontally */
+        font-size: 1.5rem;
+        color: #fff;
+        background: none;
+        border: none;
+        cursor: pointer;
+        z-index: 1100;
+        /* Ensure it stays on top */
+    }
+
+    .header-container {
+        padding: .5em;
+
+    }
+}
+
+/* Avatar Container Styles */
+.avatar-container {
+    width: 50px;
+    /* Set width for consistency */
+    height: 50px;
+    /* Set height for consistency */
+    border-radius: 50%;
+    /* Makes the container round */
+    overflow: hidden;
+    /* Ensures the image fits within the round shape */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ddd;
+
+    /* Optional: Fallback background color */
+    &.mobile {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+/* Avatar Image Styles */
+.avatar-container img {
+    width: 100%;
+    /* Fill the container width */
+    height: 100%;
+    /* Fill the container height */
+    object-fit: cover;
+    /* Ensures the image covers the container fully */
+}
+
+/* Mobile Navigation Overlay */
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.95);
+    /* Semi-transparent dark background */
+    color: #fff;
+    display: none;
+    /* Hide by default */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+}
+
+/* Show mobile nav when activated */
+.mobile-nav.show {
+    display: flex;
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 1.5rem;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Hamburger icon styling */
+.navbar-toggler i {
+    font-size: 1.5rem;
+    color: #fff;
+}

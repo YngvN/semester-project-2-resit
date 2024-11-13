@@ -1,10 +1,10 @@
-// buildTiles.mjs
+
 import { makeRequest } from '../api/url.mjs';
 import { buildTile } from './auctionTile.mjs';
 import { revealElement, hideElement } from '../animation/fade.mjs';
 
 /**
- * Builds listing tiles based on type: 'bids', 'wins', 'published', or defaults to all listings.
+ * Builds listing tiles based on type: 'bids', 'wins', 'published', or defaults to all active listings.
  * @param {string} type - The type of listings to retrieve ('bids', 'wins', 'published').
  * @param {string} profileName - The profile name for filtering bids or wins.
  * @param {string} elementId - The ID of the container to populate with the tiles.
@@ -13,6 +13,11 @@ export async function buildListingTiles(type = '', profileName = '', elementId =
     let category = 'listings';
     const params = { _seller: true, _bids: true };
     let authRequired = false;
+
+    // Add filter to get only active listings if type is default
+    if (!type) {
+        params._active = true;  // Retrieve only active listings
+    }
 
     if (type === 'bids') {
         category = `profiles/${profileName}/bids`;
@@ -35,18 +40,17 @@ export async function buildListingTiles(type = '', profileName = '', elementId =
     hideElement(tilesRow);
 
     try {
-        // Fetch listings based on the type or default to all listings
+        // Fetch listings based on the type or default to active listings
         const response = await makeRequest(category, '', '', 'GET', null, params, authRequired);
 
         if (!response || !response.data || response.data.length === 0) {
             tilesRow.innerHTML = `
-        <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
-            <p class="text-center mt-4">No ${type || 'listings'} found.</p>
-        </div>`;
+                <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+                    <p class="text-center mt-4">No ${type || 'listings'} found.</p>
+                </div>`;
             revealElement(tilesRow);
             return;
         }
-
 
         // Determine the listings data format based on type
         let listings = response.data;

@@ -1,18 +1,23 @@
 import { hideElement, revealElement } from "../animation/fade.mjs";
 
 /**
- * Toggles the hamburger menu.
+ * Toggles the visibility of the hamburger menu.
  */
 export function toggleHamburgerMenu() {
-    updateBurgerMenu(isLoggedIn());
     try {
+        const mobileNav = document.getElementById('mobileNav');
         const btnHamburger = document.getElementById('btn-hamburger');
-        btnHamburger.classList.toggle('toggle');
 
-        if (btnHamburger.classList.contains('toggle')) {
-            revealElement('burger-menu');
+        // Toggle the "show" class to control visibility
+        mobileNav.classList.toggle('show');
+
+        // Check if the "show" class is present and reveal or hide the menu accordingly
+        if (mobileNav.classList.contains('show')) {
+            revealElement(mobileNav);
+            btnHamburger.style.display = 'none'; // Hide the toggle button
         } else {
-            hideElement('burger-menu');
+            hideElement(mobileNav);
+            btnHamburger.style.display = 'block'; // Show the toggle button
         }
     } catch (error) {
         console.error("Error occurred in hamburger menu functionality:", error);

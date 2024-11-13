@@ -12,39 +12,82 @@
 </head>
 
 <body>
-    <header class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">MyLogo</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+    <header class="navbar navbar-dark bg-dark">
+        <div class="container header-container">
+            <!-- Logo and brand -->
+            <a class="navbar-brand d-flex align-items-center" href="/src/pages/index.html">
+                <!-- <img src="/src/assets/images/logo - notext.png" alt="Auction House Logo" class="me-2" width="40"> -->
+                <h3 class="mb-0">Auction House</h3>
+            </a>
+
+            <!-- Desktop Navigation (visible on larger screens) -->
+            <div id="desktopNav" class="navbar-expand-lg d-none d-lg-flex">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="/src/pages/index.html">Home</a>
+                        <a class="nav-link " href="/src/pages/index.html">Home</a>
                     </li>
                     <li class="nav-item" id="myAuctionsLink">
                         <a class="nav-link" href="/src/pages/auctions.html">My Auctions</a>
                     </li>
-                    <li class="nav-item dropdown d-none" id="profileDropdownContainer">
-                        <a id="loginLink" class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">
+                    <!-- Log In button (visible when logged out) -->
+                    <li class="nav-item d-none" id="loginNavItemDesktop">
+                        <a class="nav-link" href="/index.html">Log In</a>
+                    </li>
+                    <!-- User Info Container (visible when logged in) -->
+                    <li class="nav-item dropdown d-none" id="userInfoContainerDesktop">
+                        <a id="loginLink" class="nav-link dropdown-toggle d-flex align-items-center" href="#"
+                            data-bs-toggle="dropdown">
                             <span id="navAvatarPlaceholder" class="d-none">
                                 <i class="fas fa-user-circle fa-2x"></i>
                             </span>
-                            <img id="navAvatar" src="" alt="User Avatar" class="rounded-circle d-none" width="30">
+                            <div class="avatar-container ms-2">
+                                <img id="navAvatar" src="" alt="User Avatar" width="30">
+                            </div>
                         </a>
                         <ul id="profileDropdown" class="dropdown-menu dropdown-menu-end text-center">
                             <div class="px-3 pt-2">
                                 <strong id="usernameDisplay" class="d-block fs-5 mb-1"></strong>
                             </div>
                             <hr class="dropdown-divider">
-                            <a class="dropdown-item" href="#">Edit Profile</a>
+                            <a class="dropdown-item active" href="/src/pages/profile.html">Edit Profile</a>
                             <a class="dropdown-item" href="#" id="logout">Log out</a>
                         </ul>
                     </li>
-                    <li class="nav-item" id="loginNavItem">
+                </ul>
+            </div>
+
+            <!-- Mobile Navigation Toggle Button with Font Awesome icon -->
+            <button id="btn-hamburger" class="navbar-toggler d-lg-none" type="button" onclick="toggleHamburgerMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Mobile Navigation Overlay -->
+            <div id="mobileNav" class="mobile-nav d-lg-none">
+                <button class="close-btn" onclick="toggleHamburgerMenu()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <ul class="navbar-nav text-center">
+                    <!-- Mobile User Info Container (visible when logged in) -->
+                    <li class="nav-item d-none" id="userInfoContainerMobile">
+                        <div class="avatar-container mobile">
+                            <img id="mobileNavAvatar" src="" alt="User Avatar" class="mb-2" width="50">
+                        </div>
+                        <strong id="mobileUsernameDisplay" class="d-block fs-5 mb-3">Username</strong>
+                        <a class="dropdown-item active" href="/src/pages/profile.html">Edit Profile</a>
+                    </li>
+
+                    <!-- Mobile Navigation Links -->
+                    <li class="nav-item">
+                        <a class="nav-link " href="/src/pages/index.html">Home</a>
+                    </li>
+                    <li class="nav-item" id="myAuctionsLinkMobile">
+                        <a class="nav-link" href="/src/pages/auctions.html">My Auctions</a>
+                    </li>
+                    <li class="nav-item" id="loginNavItemMobile">
                         <a class="nav-link" href="/index.html">Log In</a>
+                    </li>
+                    <li class="nav-item" id="logoutNavItemMobile">
+                        <a class="nav-link" href="#" id="logout">Log out</a>
                     </li>
                 </ul>
             </div>
@@ -87,6 +130,8 @@
         </div>
     </footer>
     <script src="./profile/profile.mjs" type="module"></script>
+    <script src="../js/utility.mjs/utility.mjs" type="module"></script>
+
     <script src="../js/api/checkLogin.mjs" type="module"></script>
 
 </body>

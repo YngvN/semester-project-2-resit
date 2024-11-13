@@ -35,9 +35,10 @@ export async function buildTile(listingObject) {
     // Set fallback image if media is missing
     const listingImage = listingObject.media?.length
         ? listingObject.media[0].url
-        : 'default-listing-image.jpg';
+        : '/src/assets/images/logo - notext.png';
 
-    // Create the HTML structure for the listing tile
+
+    // Create the HTML structure for the listing tile with a container for the image
     const tileWrapper = document.createElement('div');
     tileWrapper.className = 'col mb-4';
     tileWrapper.innerHTML = `
@@ -45,7 +46,9 @@ export async function buildTile(listingObject) {
             <button class="listing-tile-preview btn p-0 text-start" aria-label="Auction for ${listingObject.title}"
                 onclick="window.openListingModalById('${listingObject.id}')">
                 <div class="position-relative">
-                    <img src="${listingImage}" alt="Image of ${listingObject.title}" class="card-img-top img-fluid" style="object-fit: cover; height: 200px;">
+                    <div class="image-container" style="height: 200px; overflow: hidden;">
+                        <img src="${listingImage}" alt="Image of ${listingObject.title}" class="card-img-top img-fluid" style="object-fit: cover; height: 100%; width: 100%;">
+                    </div>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title text-center text-truncate" title="${listingObject.title}">${listingObject.title}</h5>
