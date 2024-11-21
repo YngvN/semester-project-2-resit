@@ -143,4 +143,3 @@ window.saveBanner = function () {
 
 // Initialize profile on page load
 document.addEventListener("DOMContentLoaded", displayUserProfile);
-console.log("profile.mjs loaded");

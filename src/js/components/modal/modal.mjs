@@ -77,11 +77,13 @@ export async function openListingModal(listingId) {
         <p><strong>Time Left:</strong> <span id="timeLeft">${calculateTimeLeft(listingObject.endsAt)}</span></p>
         <p><strong>Current Price:</strong> ${highestBid !== null ? `$${highestBid}` : 'No bids'}</p>
         <p><strong>Description:</strong> ${listingObject.description || 'No description available'}</p>
+        <div class="button-container">
         ${highestBidder === currentUserName
-            ? '<p class="text-success fw-bold text-center">You have the highest bid!</p>'
+            ? '<button class="btn btn-secondary mt-3">Highest bid</button>'
             : '<button id="bidButton" class="btn btn-primary mt-3">Place a Bid</button>'
         }
         <button id="viewBidsButton" class="btn btn-secondary mt-3 ms-2">View Bids</button>
+        </div>
     `;
 
     clearInterval(countdownInterval);

@@ -13,6 +13,31 @@
   color: #333;
 }
 
+/* Style the button container */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  /* Adds spacing between buttons */
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.button-container .btn {
+  flex: 1;
+  /* Ensures both buttons take equal width */
+  text-align: center;
+}
+
+/* Style the Close button */
+.close-button {
+  display: block;
+  width: 100%;
+  /* Takes the full width of the modal */
+  margin-top: 1rem;
+  text-align: center;
+}
+
 .header-container,
 #profileDropdown {
   background-color: rgb(26, 26, 26) !important;
