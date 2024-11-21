@@ -2,7 +2,7 @@ import { makeRequest } from "../api/url.mjs";
 import { buildTile } from "../components/tileBuilder/tileBuilder.mjs";
 import { hideElement, revealElement } from "../animation/fade.mjs";
 
-let searchTimer; // Timer to debounce the search
+let searchTimer;
 
 /**
  * Fetches search results for a given query
@@ -98,5 +98,3 @@ async function displaySearchResults(results, query) {
         revealElement(searchResultsContainer);
     }
 }
-
-console.log('search.mjs loaded');

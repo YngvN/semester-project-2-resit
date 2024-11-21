@@ -5,7 +5,6 @@ import { revealElement, hideElement } from "../../js/animation/fade.mjs";
 import { initCreateListingForm } from "./createListing.mjs";
 
 document.addEventListener("DOMContentLoaded", async () => {
-    console.log("auctions.mjs loaded");
 
     initCreateListingForm();
 
@@ -36,7 +35,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             buildListingTiles("bids", profileName, "bids-tiles-row"),
             buildListingTiles("wins", profileName, "wins-tiles-row"),
         ]);
-        console.log("All listing data loaded and containers populated.");
     } catch (error) {
         console.error("Error loading initial listing data:", error);
         displayErrorModal("Error loading initial data. Please refresh and try again.");
