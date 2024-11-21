@@ -14,8 +14,17 @@
 }
 
 .header-container {
-  background-color: black !important;
+  background-color: rgba(0, 0, 0, 0.686) !important;
   border-radius: 20px;
+}
+@media (max-width: 576px) {
+  .header-container {
+    margin: 0 1em 0 1em;
+  }
+}
+
+#btn-hamburger {
+  border: none !important;
 }
 
 @media (max-width: 992px) {
@@ -27,23 +36,17 @@
     width: 100vw;
     height: 100vh;
     background-color: #343a40;
-    /* Matches the bg-dark color */
     z-index: 1050;
     display: none;
-    /* Hide by default, show when active */
     flex-direction: column;
     align-items: center;
     justify-content: center;
     transition: transform 0.3s ease;
-    /* Smooth transition for opening/closing */
     transform: translateY(-100%);
-    /* Hide off-screen initially */
   }
-  /* Show mobile nav when active */
   .navbar-collapse.show {
     display: flex;
     transform: translateY(0);
-    /* Slide into view */
   }
   .navbar-nav {
     display: flex;
@@ -57,13 +60,11 @@
   }
   .navbar-nav .nav-link {
     font-size: 1.5rem;
-    /* Larger font for better readability on mobile */
     color: #ffffff;
     text-align: center;
     width: 100%;
     padding: 10px;
   }
-  /* Toggle button positioning */
   .navbar-toggler {
     top: 15px;
     right: 15px;
@@ -82,7 +83,6 @@
     border: none;
     cursor: pointer;
     z-index: 1100;
-    /* Ensure it stays on top */
   }
   .header-container {
     padding: 0.5em;
@@ -91,18 +91,13 @@
 /* Avatar Container Styles */
 .avatar-container {
   width: 50px;
-  /* Set width for consistency */
   height: 50px;
-  /* Set height for consistency */
   border-radius: 50%;
-  /* Makes the container round */
   overflow: hidden;
-  /* Ensures the image fits within the round shape */
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #ddd;
-  /* Optional: Fallback background color */
 }
 .avatar-container.mobile {
   width: 200px;
@@ -112,11 +107,8 @@
 /* Avatar Image Styles */
 .avatar-container img {
   width: 100%;
-  /* Fill the container width */
   height: 100%;
-  /* Fill the container height */
   object-fit: cover;
-  /* Ensures the image covers the container fully */
 }
 
 /* Mobile Navigation Overlay */
@@ -127,10 +119,8 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.95);
-  /* Semi-transparent dark background */
   color: #fff;
   display: none;
-  /* Hide by default */
   flex-direction: column;
   align-items: center;
   justify-content: center;
