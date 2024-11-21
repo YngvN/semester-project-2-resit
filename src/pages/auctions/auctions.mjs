@@ -1,6 +1,6 @@
 
 import { makeRequest, displayErrorModal } from "../../js/api/url.mjs";
-import { buildListingTiles } from "../../js/components/buildTiles.mjs";
+import { buildListingTiles } from "../../js/components/tileBuilder/tileCategory.mjs";
 import { revealElement, hideElement } from "../../js/animation/fade.mjs";
 import { initCreateListingForm } from "./createListing.mjs";
 

@@ -1,4 +1,4 @@
-import { buildListingTiles } from "../../js/components/buildTiles.mjs";
+import { buildListingTiles } from "../../js/components/tileBuilder/tileCategory.mjs";
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log('Home.mjs loaded');

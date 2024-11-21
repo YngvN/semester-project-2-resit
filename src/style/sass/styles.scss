@@ -1,7 +1,8 @@
-@import './colors';
-@import './iconX';
-@import './modal';
-@import './navbar';
+@use './colors';
+@use './iconX';
+@use './modal';
+@use './navbar';
+@use './tile';
 
 main {
     min-height: 100vh;

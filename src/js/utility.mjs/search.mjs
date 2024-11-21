@@ -1,5 +1,5 @@
 import { makeRequest } from "../api/url.mjs";
-import { buildTile } from "../components/auctionTile.mjs";
+import { buildTile } from "../components/tileBuilder/tileBuilder.mjs";
 import { hideElement, revealElement } from "../animation/fade.mjs";
 
 let searchTimer; // Timer to debounce the search

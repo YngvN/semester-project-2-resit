@@ -24,10 +24,10 @@
             <div id="desktopNav" class="navbar-expand-lg d-none d-lg-flex">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link " href="/src/pages/index.html">Home</a>
+                        <a class="nav-link" href="/src/pages/index.html">Home</a>
                     </li>
-                    <li class="nav-item " id="myAuctionsLink">
-                        <a class="nav-link active" href="/src/pages/auctions.html">My Auctions</a>
+                    <li class="nav-item" id="myAuctionsLink">
+                        <a class="nav-link" href="/src/pages/auctions.html">My Auctions</a>
                     </li>
                     <!-- Log In button (visible when logged out) -->
                     <li class="nav-item d-none" id="loginNavItemDesktop">
@@ -45,12 +45,15 @@
                             </div>
                         </a>
                         <ul id="profileDropdown" class="dropdown-menu dropdown-menu-end text-center">
-                            <div class="px-3 pt-2">
-                                <strong id="usernameDisplay" class="d-block fs-5 mb-1"></strong>
-                            </div>
-                            <hr class="dropdown-divider">
-                            <a class="dropdown-item" href="/src/pages/profile.html">Edit Profile</a>
-                            <a class="dropdown-item" href="#" id="logout">Log out</a>
+                            <strong id="usernameDisplay"></strong>
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/src/pages/profile.html">Edit Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" id="logout">Log out</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -78,10 +81,10 @@
 
                     <!-- Mobile Navigation Links -->
                     <li class="nav-item">
-                        <a class="nav-link " href="/src/pages/index.html">Home</a>
+                        <a class="nav-link" href="/src/pages/index.html">Home</a>
                     </li>
-                    <li class="nav-item " id="myAuctionsLinkMobile">
-                        <a class="nav-link active" href="/src/pages/auctions.html">My Auctions</a>
+                    <li class="nav-item" id="myAuctionsLinkMobile">
+                        <a class="nav-link" href="/src/pages/auctions.html">My Auctions</a>
                     </li>
                     <li class="nav-item" id="loginNavItemMobile">
                         <a class="nav-link" href="/index.html">Log In</a>
@@ -93,6 +96,7 @@
             </div>
         </div>
     </header>
+
 
     <main>
         <div class="container mt-4">
@@ -220,7 +224,6 @@
     <script src="./auctions/auctions.mjs" type="module"></script>
     <script src="../js/utility.mjs/utility.mjs" type="module"></script>
 
-    <script src="../js/api/checkLogin.mjs" type="module"></script>
 
 </body>
 
