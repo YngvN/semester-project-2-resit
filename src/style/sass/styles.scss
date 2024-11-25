@@ -3,8 +3,20 @@
 @use './modal';
 @use './navbar';
 @use './tile';
+@use './profile';
+@use './auctions';
+@use './buttons';
+
+
 
 main {
     margin-top: 7em;
     min-height: 100vh;
+}
+
+.login-title {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    padding: .5em;
+    border-radius: 10px;
 }

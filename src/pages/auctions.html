@@ -49,7 +49,7 @@
 
 
                             <li class="nav-item">
-                                <a class="nav-link" href="/src/pages/profile.html">Edit Profile</a>
+                                <a class="nav-link" href="/src/pages/profile.html">Profile</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" id="logout">Log out</a>
@@ -64,47 +64,50 @@
                 <i class="fas fa-bars"></i>
             </button>
 
-            <!-- Mobile Navigation Overlay -->
-            <div id="mobileNav" class="mobile-nav d-lg-none">
-                <button class="close-btn" onclick="toggleHamburgerMenu()">
-                    <i class="fas fa-times"></i>
-                </button>
-                <ul class="navbar-nav text-center">
-                    <!-- Mobile User Info Container (visible when logged in) -->
-                    <li class="nav-item d-none" id="userInfoContainerMobile">
-                        <div class="avatar-container mobile">
-                            <img id="mobileNavAvatar" src="" alt="User Avatar" class="mb-2" width="50">
-                        </div>
-                        <strong id="mobileUsernameDisplay" class="d-block fs-5 mb-3">Username</strong>
-                        <a class="dropdown-item" href="/src/pages/profile.html">Edit Profile</a>
-                    </li>
 
-                    <!-- Mobile Navigation Links -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/src/pages/index.html">Home</a>
-                    </li>
-                    <li class="nav-item" id="myAuctionsLinkMobile">
-                        <a class="nav-link" href="/src/pages/auctions.html">My Auctions</a>
-                    </li>
-                    <li class="nav-item" id="loginNavItemMobile">
-                        <a class="nav-link" href="/index.html">Log In</a>
-                    </li>
-                    <li class="nav-item" id="logoutNavItemMobile">
-                        <a class="nav-link" href="#" id="logout">Log out</a>
-                    </li>
-                </ul>
-            </div>
+        </div>
+        <!-- Mobile Navigation Overlay -->
+        <div id="mobileNav" class="mobile-nav d-lg-none">
+            <button class="close-btn" onclick="toggleHamburgerMenu()">
+                <i class="fas fa-times"></i>
+            </button>
+            <ul class="navbar-nav text-center">
+                <!-- Mobile User Info Container (visible when logged in) -->
+                <li class="nav-item d-none" id="userInfoContainerMobile">
+                    <div class="avatar-container mobile">
+                        <img id="mobileNavAvatar" src="" alt="User Avatar" class="mb-2" width="50">
+                    </div>
+                    <strong id="mobileUsernameDisplay" class="d-block fs-5 mb-3">Username</strong>
+                    <a class="dropdown-item" href="/src/pages/profile.html">Profile</a>
+                </li>
+
+                <!-- Mobile Navigation Links -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/src/pages/index.html">Home</a>
+                </li>
+                <li class="nav-item" id="myAuctionsLinkMobile">
+                    <a class="nav-link" href="/src/pages/auctions.html">My Auctions</a>
+                </li>
+                <li class="nav-item" id="loginNavItemMobile">
+                    <a class="nav-link" href="/index.html">Log In</a>
+                </li>
+                <li class="nav-item" id="logoutNavItemMobile">
+                    <a class="nav-link" href="#" id="logout">Log out</a>
+                </li>
+            </ul>
         </div>
     </header>
 
 
     <main>
         <div class="container mt-4">
-            <div class="text-center mb-4">
+            <div class="auction-btn-container mb-4 d-flex">
                 <button id="myListingsButton" class="btn btn-primary mx-2">My Listings</button>
                 <button id="myBidsButton" class="btn btn-primary mx-2">My Bids</button>
                 <button id="myWinsButton" class="btn btn-primary mx-2">Wins</button>
-                <button id="createListingButton" class="btn btn-success mx-2">Create New Listing</button>
+                <div class="d-flex">
+                    <button id="createListingButton" class="btn btn-success mx-2">Create New Listing</button>
+                </div>
             </div>
 
             <!-- My Listings Container -->
@@ -132,12 +135,11 @@
                 <div class="modal-content large-modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="listingModalLabel">Modal Title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;
+                            </span>
                     </div>
                     <div class="modal-body" id="modalBody"></div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -148,7 +150,9 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="createListingModalLabel">Create New Listing</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;
+                            </span>
                     </div>
                     <div class="modal-body">
                         <form id="createListingForm">
@@ -193,28 +197,6 @@
 
     <footer class="bg-dark text-light py-4">
         <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <h5>About Us</h5>
-                    <p>We are dedicated to providing quality products and excellent customer service. Your satisfaction
-                        is our priority.</p>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <h5>Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-light">Home</a></li>
-                        <li><a href="#" class="text-light">Shop</a></li>
-                        <li><a href="#" class="text-light">Contact</a></li>
-                        <li><a href="#" class="text-light">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <h5>Contact Us</h5>
-                    <p><i class="bi bi-envelope"></i> email@example.com</p>
-                    <p><i class="bi bi-phone"></i> +123 456 7890</p>
-                    <p><i class="bi bi-geo-alt"></i> 123 Street, City, Country</p>
-                </div>
-            </div>
             <div class="text-center mt-4">
                 <p class="mb-0">&copy; 2024 Your Company Name. All rights reserved.</p>
             </div>
