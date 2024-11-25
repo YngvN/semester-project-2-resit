@@ -151,6 +151,12 @@ header #profileDropdown {
   transform: translate(-50%, -50%);
   z-index: 1000;
 }
+@media (max-width: 576px) {
+  .navbar .header-container {
+    top: 1.5em;
+    border-radius: 0;
+  }
+}
 
 .dropdown-menu .dropdown-toggle::after {
   display: none !important;
