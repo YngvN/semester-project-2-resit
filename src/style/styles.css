@@ -62,6 +62,9 @@
 }
 
 @media (min-width: 992px) {
+  .navbar .header-container {
+    height: 70px;
+  }
   .navbar .header-container #usernameDisplay {
     color: #fff;
   }

@@ -10,6 +10,7 @@ export default function updateNavigationUI(isLoggedIn, userData = {}) {
     const mobileNavAvatar = document.getElementById("mobileNavAvatar");
     const mobileUsernameDisplay = document.getElementById("mobileUsernameDisplay");
     const loginNavItemMobile = document.getElementById("loginNavItemMobile");
+    const logoutNavItemMobile = document.getElementById("logoutNavItemMobile");
 
     const myAuctionsLinkDesktop = document.getElementById("myAuctionsLink");
     const myAuctionsLinkMobile = document.getElementById("myAuctionsLinkMobile");
@@ -56,6 +57,7 @@ export default function updateNavigationUI(isLoggedIn, userData = {}) {
         // Logged out state: Show login button and hide user info container
         loginNavItemDesktop.classList.remove("d-none");
         userInfoContainerDesktop.classList.add("d-none");
+        logoutNavItemMobile.classList.add("d-none");
 
         loginNavItemMobile.classList.remove("d-none");
         userInfoContainerMobile.classList.add("d-none");
