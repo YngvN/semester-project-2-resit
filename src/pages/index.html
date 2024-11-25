@@ -64,36 +64,37 @@
                 <i class="fas fa-bars"></i>
             </button>
 
-            <!-- Mobile Navigation Overlay -->
-            <div id="mobileNav" class="mobile-nav d-lg-none">
-                <button class="close-btn" onclick="toggleHamburgerMenu()">
-                    <i class="fas fa-times"></i>
-                </button>
-                <ul class="navbar-nav text-center">
-                    <!-- Mobile User Info Container (visible when logged in) -->
-                    <li class="nav-item d-none" id="userInfoContainerMobile">
-                        <div class="avatar-container mobile">
-                            <img id="mobileNavAvatar" src="" alt="User Avatar" class="mb-2" width="50">
-                        </div>
-                        <strong id="mobileUsernameDisplay" class="d-block fs-5 mb-3">Username</strong>
-                        <a class="dropdown-item" href="/src/pages/profile.html">Edit Profile</a>
-                    </li>
 
-                    <!-- Mobile Navigation Links -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/src/pages/index.html">Home</a>
-                    </li>
-                    <li class="nav-item" id="myAuctionsLinkMobile">
-                        <a class="nav-link" href="/src/pages/auctions.html">My Auctions</a>
-                    </li>
-                    <li class="nav-item" id="loginNavItemMobile">
-                        <a class="nav-link" href="/index.html">Log In</a>
-                    </li>
-                    <li class="nav-item" id="logoutNavItemMobile">
-                        <a class="nav-link" href="#" id="logout">Log out</a>
-                    </li>
-                </ul>
-            </div>
+        </div>
+        <!-- Mobile Navigation Overlay -->
+        <div id="mobileNav" class="mobile-nav d-lg-none">
+            <button class="close-btn" onclick="toggleHamburgerMenu()">
+                <i class="fas fa-times"></i>
+            </button>
+            <ul class="navbar-nav text-center">
+                <!-- Mobile User Info Container (visible when logged in) -->
+                <li class="nav-item d-none" id="userInfoContainerMobile">
+                    <div class="avatar-container mobile">
+                        <img id="mobileNavAvatar" src="" alt="User Avatar" class="mb-2" width="50">
+                    </div>
+                    <strong id="mobileUsernameDisplay" class="d-block fs-5 mb-3">Username</strong>
+                    <a class="dropdown-item" href="/src/pages/profile.html">Edit Profile</a>
+                </li>
+
+                <!-- Mobile Navigation Links -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/src/pages/index.html">Home</a>
+                </li>
+                <li class="nav-item" id="myAuctionsLinkMobile">
+                    <a class="nav-link" href="/src/pages/auctions.html">My Auctions</a>
+                </li>
+                <li class="nav-item" id="loginNavItemMobile">
+                    <a class="nav-link" href="/index.html">Log In</a>
+                </li>
+                <li class="nav-item" id="logoutNavItemMobile">
+                    <a class="nav-link" href="#" id="logout">Log out</a>
+                </li>
+            </ul>
         </div>
     </header>
 
@@ -145,6 +146,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div id="modal-container">
+
         </div>
     </main>
 

@@ -81,7 +81,7 @@
 //     }
 // };
 
-import { openListingModal } from "../modal/modal.mjs";
+import { openListingModal } from "../modal/listingModal.mjs";
 import { generateBidsTile } from "./userTiles/bidsTile.mjs";
 import { generateListingsTile } from "./userTiles/listingTile.mjs";
 import { generateWinsTile } from "./userTiles/winTiles.mjs";

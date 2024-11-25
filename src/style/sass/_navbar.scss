@@ -3,33 +3,38 @@
     background-color: rgb(26, 26, 26) !important;
 }
 
-.header-container {
+.navbar {
+    position: fixed;
+    background-color: red !important;
+    height: 80px;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    border-radius: 20px;
 
-    @media (max-width: 576px) {
-        margin: 0 1em 0 1em;
+    .header-container {
+
+        border-radius: 10px;
+
+
+        position: fixed;
+        top: 2.5em;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+
+
+
+
     }
-
-
-
 }
 
 
 @media (min-width: 992px) {
     .navbar {
-        background-color: transparent !important;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 80px;
 
         .header-container {
-            position: fixed;
-            top: 2.5em;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
 
             #usernameDisplay {
                 color: #fff;
@@ -46,9 +51,9 @@
         border: none;
         margin: 0 !important;
         padding: .5em 1em .5em 1em;
-        border-radius: 0 0 20px 20px !important;
-        transform: translateY(-5px);
-        z-index: 999;
+        border-radius: 0 0 10px 10px !important;
+        transform: translateY(-9px) translateX(12px);
+        z-index: 900 !important;
 
 
     }

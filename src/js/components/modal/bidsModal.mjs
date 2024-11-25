@@ -1,6 +1,6 @@
 import { makeRequest, displayErrorModal } from "../../api/url.mjs";
 import { checkLoginStatus } from "../../api/checkLogin.mjs";
-import { openListingModal } from "./modal.mjs";
+import { openListingModal } from "./listingModal.mjs";
 
 
 /**
