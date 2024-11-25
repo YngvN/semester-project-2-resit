@@ -1,6 +1,7 @@
 import { makeRequest, displayErrorModal } from "../../api/url.mjs";
 import { checkLoginStatus } from "../../api/checkLogin.mjs";
 import { openListingModal } from "./listingModal.mjs";
+import { revealElement, hideElement } from "../../animation/fade.mjs";
 
 
 /**
@@ -8,6 +9,11 @@ import { openListingModal } from "./listingModal.mjs";
  * @param {Array} bids - Array of bid objects to display in the modal.
  */
 export function viewBidHistory(bids) {
+    const listingModal = document.getElementById('listingModal');
+    if (listingModal) {
+        hideElement(listingModal);
+    }
+
     const bidHistoryModal = document.createElement('div');
     bidHistoryModal.className = 'modal fade';
     bidHistoryModal.id = 'bidHistoryModal';
@@ -16,17 +22,36 @@ export function viewBidHistory(bids) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Bid History</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+                        <span
+                            aria-hidden="true">&times;
+                        </span>
+                    </button>                         
                 </div>
                 <div class="modal-body">
                     ${bids.length > 0
-            ? bids
+            ? `
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Bidder</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${bids
                 .map(
                     (bid) => `
-                        <p><strong>Bidder:</strong> ${bid.bidder.name || 'Anonymous'} - <strong>Amount:</strong> $${bid.amount}</p>
-                    `
+                                        <tr>
+                                            <td>${bid.bidder.name || 'Anonymous'}</td>
+                                            <td>$${bid.amount}</td>
+                                        </tr>
+                                    `
                 )
-                .join('')
+                .join('')}
+                        </tbody>
+                    </table>
+                `
             : '<p>No bids available.</p>'
         }
                 </div>
@@ -45,14 +70,19 @@ export function viewBidHistory(bids) {
     bidHistoryModalInstance._element.addEventListener('hidden.bs.modal', () => {
         bidHistoryModalInstance.dispose();
         bidHistoryModal.remove();
+        if (listingModal) {
+            revealElement(listingModal);
+        }
     });
 }
 
-/**
- * Opens a popup modal for the user to place a bid on a listing.
- * @param {string} listingId - The ID of the listing for which the bid is being placed.
- */
+
 export function openBidPopup(listingId) {
+    const listingModal = document.getElementById('listingModal');
+    if (listingModal) {
+        hideElement(listingModal);
+    }
+
     const loginData = JSON.parse(localStorage.getItem('loginData') || sessionStorage.getItem('loginData') || '{}');
     const availableCredits = loginData?.userData?.credits || 0;
 
@@ -64,7 +94,11 @@ export function openBidPopup(listingId) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Place Your Bid</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+                        <span
+                            aria-hidden="true">&times;
+                        </span>
+                    </button>                
                 </div>
                 <div class="modal-body">
                     <p><strong>Available Credits:</strong> $${availableCredits}</p>
@@ -93,8 +127,12 @@ export function openBidPopup(listingId) {
     bidPopupModal._element.addEventListener('hidden.bs.modal', () => {
         bidPopupModal.dispose();
         bidPopup.remove();
+        if (listingModal) {
+            revealElement(listingModal);
+        }
     });
 }
+
 
 export async function handleBidSubmission(listingId) {
     const bidAmount = parseFloat(document.getElementById('bidAmount').value);

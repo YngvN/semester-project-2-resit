@@ -1,0 +1,86 @@
+$primary-color: #59607c;
+$secondary-color: #2D2A32;
+$success-color: #28a745;
+$danger-color: #dc3545;
+$warning-color: #ffc107;
+$info-color: #17a2b8;
+$light-color: #ffffff;
+$dark-color: #343a40;
+$text-color: #212529;
+$background-color: #ffffff;
+
+:root {
+    --primary-color: #{$primary-color};
+    --secondary-color: #{$secondary-color};
+    --success-color: #{$success-color};
+    --danger-color: #{$danger-color};
+    --warning-color: #{$warning-color};
+    --info-color: #{$info-color};
+    --light-color: #{$light-color};
+    --dark-color: #{$dark-color};
+    --text-color: #{$text-color};
+    --background-color: #{$background-color};
+}
+
+.btn {
+    border: none;
+
+    &.btn-primary {
+        background-color: var(--primary-color);
+
+    }
+
+    &.btn-secondary {
+        background-color: var((--secondary-color));
+    }
+
+    &.btn-unavailable {
+        background-color: rgb(197, 255, 200) !important;
+
+        &:hover {
+            color: var(--text-color);
+            cursor: initial;
+        }
+    }
+
+    &:active {
+        background-color: var(--dark-color) !important;
+    }
+
+    &.active {
+        background-color: var(--secondary-color) !important;
+    }
+}
+
+header {
+
+    .header-container,
+    #profileDropdown {
+        background-color: var(--dark-color) !important;
+    }
+}
+
+.modal {
+    .modal-content {
+        background-color: var(--dark-color) !important;
+        color: var(--light-color) !important;
+    }
+
+    .btn-close {
+        color: var(--light-color) !important;
+    }
+
+}
+
+.card {
+
+    &:hover {
+        background-color: var(--dark-color) !important;
+        color: var(--light-color);
+
+        span {
+            background-color: var(--light-color);
+
+        }
+    }
+}

@@ -49,7 +49,7 @@
 
 
                             <li class="nav-item">
-                                <a class="nav-link" href="/src/pages/profile.html">Edit Profile</a>
+                                <a class="nav-link" href="/src/pages/profile.html">Profile</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" id="logout">Log out</a>
@@ -78,7 +78,7 @@
                         <img id="mobileNavAvatar" src="" alt="User Avatar" class="mb-2" width="50">
                     </div>
                     <strong id="mobileUsernameDisplay" class="d-block fs-5 mb-3">Username</strong>
-                    <a class="dropdown-item" href="/src/pages/profile.html">Edit Profile</a>
+                    <a class="dropdown-item" href="/src/pages/profile.html">Profile</a>
                 </li>
 
                 <!-- Mobile Navigation Links -->
@@ -135,37 +135,23 @@
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content large-modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="listingModalLabel">Modal Title</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="modal-header d-flex justify-content-center align-items-center">
+                            <h5 class="modal-title text-center" id="listingModalLabel">Modal Title</h5>
+                            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body" id="modalBody"></div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-
     <footer class="bg-dark text-light py-4">
         <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <h5>About Us</h5>
-                    <p>All your auction needs placed inside our Auction Home</p>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <h5>Contact Us</h5>
-                    <p><i class="bi bi-envelope"></i> email@example.com</p>
-                    <p><i class="bi bi-phone"></i> +123 456 7890</p>
-                    <p><i class="bi bi-geo-alt"></i> 123 Street, City, Country</p>
-                </div>
-            </div>
             <div class="text-center mt-4">
-                <p class="mb-0">&copy; 2024 Auction Home. All rights reserved.</p>
+                <p class="mb-0">&copy; 2024 Your Company Name. All rights reserved.</p>
             </div>
         </div>
     </footer>

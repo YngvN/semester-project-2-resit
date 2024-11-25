@@ -79,7 +79,7 @@ export async function openListingModal(listingId) {
         <p><strong>Description:</strong> ${listingObject.description || 'No description available'}</p>
         <div class="button-container">
         ${highestBidder === currentUserName
-            ? '<button class="btn btn-secondary mt-3">Highest bid</button>'
+            ? '<button class="btn btn-unavailable mt-3">Highest bid</button>'
             : '<button id="bidButton" class="btn btn-primary mt-3">Place a Bid</button>'
         }
         <button id="viewBidsButton" class="btn btn-secondary mt-3 ms-2">View Bids</button>

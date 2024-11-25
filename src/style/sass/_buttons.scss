@@ -1,0 +1,9 @@
+@use './colors';
+
+.btn {
+    border: none;
+
+    &.btn-primary {}
+
+    &.btn-secondary {}
+}
