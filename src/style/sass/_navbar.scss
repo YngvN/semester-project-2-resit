@@ -23,7 +23,10 @@
         transform: translate(-50%, -50%);
         z-index: 1000;
 
-
+        @media (max-width: 576px) {
+            top: 1.5em;
+            border-radius: 0;
+        }
 
 
     }

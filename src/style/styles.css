@@ -1,10 +1,6 @@
 :root {
   --primary-color: #59607c;
   --secondary-color: #2D2A32;
-  --success-color: #28a745;
-  --danger-color: #dc3545;
-  --warning-color: #ffc107;
-  --info-color: #17a2b8;
   --light-color: #ffffff;
   --dark-color: #343a40;
   --text-color: #212529;
@@ -239,6 +235,12 @@ header #profileDropdown {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
+}
+@media (max-width: 576px) {
+  .navbar .header-container {
+    top: 1.5em;
+    border-radius: 0;
+  }
 }
 
 .dropdown-menu .dropdown-toggle::after {
