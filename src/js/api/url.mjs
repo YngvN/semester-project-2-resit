@@ -1,3 +1,5 @@
+import { buildModal } from "../components/modal/modalBuilder.mjs";
+
 const URL = "https://v2.api.noroff.dev/";
 const baseURL = "https://v2.api.noroff.dev/auction/";
 
@@ -80,16 +82,9 @@ export async function makeRequest(category, id = '', subcategory = '', method = 
         console.error(`Error with ${method} request to ${url}:`, error);
     }
 }
-/**
- * Searches listings by title, description, or tags
- */
-export async function searchListings(searchTerm, additionalParams = {}) {
-    const params = { q: searchTerm, ...additionalParams };
-    return await makeRequest("listings/search", '', '', 'GET', null, params);
-}
 
 /**
- * Parses API error response and displays it in a modal
+ * Parses API error response and displays it using modalBuilder.
  */
 function handleAPIError(errorData) {
     let errorMessage = `Status: ${errorData.status}\nStatus Code: ${errorData.statusCode}\n`;
@@ -105,61 +100,15 @@ function handleAPIError(errorData) {
     }
 
     console.error(errorMessage);
-    displayErrorModal(errorMessage);
+
+    // Use modalBuilder to display the error message
+    buildModal(null, errorMessage, "error", { dismissible: true });
 }
 
 /**
- * Displays an error modal with the given message.
+ * Searches listings by title, description, or tags
  */
-export function displayErrorModal(message) {
-    initializeErrorModal(); // Ensure modal is set up once
-
-    const errorModalMessageContainer = document.getElementById("errorModalMessageContainer");
-    errorModalMessageContainer.innerHTML = "";
-    message.split("\n").forEach(line => {
-        const paragraph = document.createElement("p");
-        paragraph.textContent = line;
-        errorModalMessageContainer.appendChild(paragraph);
-    });
-
-    const bootstrapModal = new bootstrap.Modal(document.getElementById("errorModal"));
-    bootstrapModal.show();
-}
-
-/**
- * Initializes the error modal structure only once.
- */
-function initializeErrorModal() {
-    if (document.getElementById("errorModal")) return;
-
-    const errorModal = document.createElement("div");
-    errorModal.id = "errorModal";
-    errorModal.className = "modal fade";
-    errorModal.innerHTML = `
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Error</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="errorModalMessageContainer"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(errorModal);
-
-    errorModal.querySelector(".btn-close").addEventListener("click", closeErrorModal);
-    errorModal.querySelector(".btn-secondary").addEventListener("click", closeErrorModal);
-}
-
-/**
- * Closes the error modal and removes any backdrops.
- */
-function closeErrorModal() {
-    const errorModal = document.getElementById("errorModal");
-    if (errorModal) bootstrap.Modal.getInstance(errorModal).hide();
-    document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+export async function searchListings(searchTerm, additionalParams = {}) {
+    const params = { q: searchTerm, ...additionalParams };
+    return await makeRequest("listings/search", '', '', 'GET', null, params);
 }

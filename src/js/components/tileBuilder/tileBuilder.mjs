@@ -1,4 +1,4 @@
-import { openListingModal } from "../modal/listingModal.mjs";
+import { buildModal } from "../modal/modalBuilder.mjs";
 import { generateBidsTile } from "./userTiles/bidsTile.mjs";
 import { generateListingsTile } from "./userTiles/listingTile.mjs";
 import { generateWinsTile } from "./userTiles/winTiles.mjs";
@@ -84,7 +84,7 @@ export async function buildTile(listingObject, category = 'listings') {
 window.openListingModalById = async function (id) {
     const listingObject = listingMap.get(id);
     if (listingObject) {
-        openListingModal(listingObject.id);
+        await buildModal(id, null, "info", { dismissible: true }, "display");
     } else {
         console.error(`Listing with ID ${id} not found`);
     }

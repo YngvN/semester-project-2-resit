@@ -1,12 +1,16 @@
 
-import { makeRequest, displayErrorModal } from "../../js/api/url.mjs";
+import { makeRequest } from "../../js/api/url.mjs";
 import { buildListingTiles } from "../../js/components/tileBuilder/tileCategory.mjs";
 import { revealElement, hideElement } from "../../js/animation/fade.mjs";
-import { initCreateListingForm } from "./createListing.mjs";
+import { buildModal } from "../../js/components/modal/modalBuilder.mjs";
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-    initCreateListingForm();
+    const createListingButton = document.getElementById("createListingButton");
+
+    createListingButton.addEventListener("click", () => {
+        buildModal('', null, null, { dismissible: true }, 'create');
+    });
 
     // Retrieve the username from stored login data
     const loginData = JSON.parse(localStorage.getItem("loginData")) || JSON.parse(sessionStorage.getItem("loginData"));
@@ -14,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!profileName) {
         console.error("Profile name not found in login data.");
-        displayErrorModal("Unable to load user-specific content. Please log in again.");
+        buildModal(null, `Unable to load user-specific content. Please log in again.`, "error", { dismissible: true });
         return;
     }
 
@@ -37,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         ]);
     } catch (error) {
         console.error("Error loading initial listing data:", error);
-        displayErrorModal("Error loading initial data. Please refresh and try again.");
+        buildModal(null, `Error loading initial data. Please refresh and try again.`, "error", { dismissible: true });
         return;
     }
 
@@ -69,15 +73,5 @@ document.addEventListener("DOMContentLoaded", async () => {
         activeButton.classList.add("active");
     }
 
-    // Event listener to remove all modal backdrops when a modal is hidden
-    document.addEventListener("hidden.bs.modal", () => {
-        document.querySelectorAll(".modal-backdrop").forEach((backdrop) => backdrop.remove());
-    });
-
-    document.addEventListener("click", (event) => {
-        if (event.target.classList.contains("modal")) {
-            document.querySelectorAll(".modal-backdrop").forEach((backdrop) => backdrop.remove());
-        }
-    });
 });
 

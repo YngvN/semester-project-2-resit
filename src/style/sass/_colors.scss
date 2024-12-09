@@ -34,14 +34,6 @@ $background-color: #ffffff;
         background-color: var((--secondary-color));
     }
 
-    &.btn-unavailable {
-        background-color: rgb(197, 255, 200) !important;
-
-        &:hover {
-            color: var(--text-color);
-            cursor: initial;
-        }
-    }
 
     &:active {
         background-color: var(--dark-color) !important;
