@@ -1,6 +1,6 @@
 # Auction Home
 
-![image](src/assets/images/Skjermbilde 2025-01-12 kl. 14.23.23.png)
+<img width="2368" alt="Skjermbilde 2025-01-12 kl  14 23 23" src="https://github.com/user-attachments/assets/91d462be-f2fd-4fbe-af6b-94e9ac2f4570" />
 
 My resit for Semester Project 2 with Noroff
 
