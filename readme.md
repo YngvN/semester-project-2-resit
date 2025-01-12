@@ -4,6 +4,8 @@
 
 My resit for Semester Project 2 with Noroff
 
+Site: https://auctionhome.netlify.app/
+
 ## Description
 
 With this project I've attempted to use a simple style. You should be able to
