@@ -33,8 +33,7 @@ export function buildUpdateModal(modalContent, userData, onUpdate) {
 
     // Avatar field with preview
     const avatarGroup = document.createElement('div');
-    avatarGroup.className = 'mb-3 text-center';
-
+    avatarGroup.className = 'mb-3 text-center d-flex flex-column align-items-center justify-content-center';
     const avatarPreview = document.createElement('img');
     avatarPreview.src = userData.avatar || 'default-avatar.png';
     avatarPreview.alt = 'Avatar Preview';
@@ -103,7 +102,7 @@ export function buildUpdateModal(modalContent, userData, onUpdate) {
 
     // Bio field
     const bioGroup = document.createElement('div');
-    bioGroup.className = 'mb-3';
+    bioGroup.className = 'mb-3 flex-column align-items-center justify-content-center text-center';
 
     const bioLabel = document.createElement('label');
     bioLabel.className = 'form-label';
